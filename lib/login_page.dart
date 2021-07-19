@@ -68,6 +68,10 @@ class _LoginPageState extends State<LoginPage> {
                     Toast(context, "Mật khẩu không chính xác");
                   } else if (result == "user-not-found") {
                     Toast(context, "Tài khoản không tồn tại");
+                  }else if (result == "user-disabled") {
+                    Toast(context, "Tài khoản đã bị khóa");
+                  }else if (result == "error") {
+                    Toast(context, "Error");
                   } else if (result == "success") {
                     Toast(context, "Login success");
                     Navigator.push(

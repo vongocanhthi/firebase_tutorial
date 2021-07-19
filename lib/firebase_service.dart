@@ -48,7 +48,14 @@ class FirebaseService {
       } else if (e.code == "user-not-found") {
         print("Tài khoản không tồn tại");
         result = "user-not-found";
+      }else if (e.code == "user-disabled") {
+        print("Tài khoản đã bị khóa");
+        result = "user-disabled";
+      }else{
+        print("error");
+        result = "error";
       }
+      print("${e.code} : ${e.message}");
     }
     return result;
   }
