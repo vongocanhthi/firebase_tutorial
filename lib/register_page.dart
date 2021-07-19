@@ -48,12 +48,17 @@ class _RegisterPageState extends State<RegisterPage> {
               obscureText: true,
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (_email.isEmpty || _password.isEmpty) {
                   Toast(context, "Vui lòng nhập thông tin tài khoản");
                 } else {
-                  FirebaseService()
+                  String result = await FirebaseService()
                       .createUserWithEmailAndPassword(_email, _password);
+                  if(result == "email-already-in-use"){
+                    Toast(context, "Tài khoản đã tồn tại");
+                  }else if(result == "success"){
+                    Toast(context, "Sign up success");
+                  }
                 }
               },
               child: Text("Register"),

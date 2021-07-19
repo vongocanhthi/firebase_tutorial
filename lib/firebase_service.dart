@@ -5,7 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 class FirebaseService {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
-  void createUserWithEmailAndPassword(String email, String password) async {
+  Future<String> createUserWithEmailAndPassword(String email, String password) async {
+    String result = "";
     try {
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
@@ -14,10 +15,16 @@ class FirebaseService {
       );
       if (userCredential != null) {
         print("Sign up success");
+        result = "success";
       }
     } on FirebaseAuthException catch (e) {
-      print(e.message);
+      if(e.code == "email-already-in-use"){
+        print("Tài khoản đã tồn tại");
+        result = "email-already-in-use";
+      }
+      print("${e.code} : ${e.message}");
     }
+    return result;
   }
 
   Future<String> signInWithEmailAndPassword(String email, String password) async {
