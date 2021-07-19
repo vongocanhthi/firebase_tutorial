@@ -5,7 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 class FirebaseService {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<String> createUserWithEmailAndPassword(String email, String password) async {
+  Future<String> createUserWithEmailAndPassword(
+      String email, String password) async {
     String result = "";
     try {
       UserCredential userCredential =
@@ -18,7 +19,7 @@ class FirebaseService {
         result = "success";
       }
     } on FirebaseAuthException catch (e) {
-      if(e.code == "email-already-in-use"){
+      if (e.code == "email-already-in-use") {
         print("Tài khoản đã tồn tại");
         result = "email-already-in-use";
       }
@@ -27,7 +28,8 @@ class FirebaseService {
     return result;
   }
 
-  Future<String> signInWithEmailAndPassword(String email, String password) async {
+  Future<String> signInWithEmailAndPassword(
+      String email, String password) async {
     String result = "";
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
@@ -61,6 +63,25 @@ class FirebaseService {
     if (user != null && !user.emailVerified) {
       await user.sendEmailVerification();
     }
+  }
+
+  Future<String> sendPasswordResetEmail(String email) async {
+    String result = "";
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      if(e.code == "user-not-found"){
+        print("Tài khoản không tồn tại");
+        result = "user-not-found";
+      }else if(e.code == "invalid-email"){
+        print("Email không đúng định dạng");
+        result = "invalid-email";
+      }else{
+        result = "error";
+      }
+      print("${e.code} : ${e.message}");
+    }
+    return result;
   }
 
   void deleteUser() async {

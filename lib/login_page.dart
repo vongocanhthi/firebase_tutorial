@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'firebase_service.dart';
+import 'forgot_password_page.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -82,6 +83,20 @@ class _LoginPageState extends State<LoginPage> {
                 backgroundColor: MaterialStateProperty.all(Colors.blue),
               ),
               child: Text("Login"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ForgotPasswordPage(),
+                  ),
+                );
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.red),
+              ),
+              child: Text("Forgot password"),
             ),
             ElevatedButton(
               onPressed: () {
