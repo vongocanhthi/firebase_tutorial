@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:firebase_tutorial/firebase_service.dart';
+import 'package:firebase_tutorial/util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -12,6 +14,9 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  String _email = "";
+  String _password = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,14 +28,19 @@ class _RegisterPageState extends State<RegisterPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-              onChanged: (value) {},
+              onChanged: (value) {
+                _email = value;
+              },
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: "Email",
               ),
+              keyboardType: TextInputType.emailAddress,
             ),
             TextField(
-              onChanged: (value) {},
+              onChanged: (value) {
+                _password = value;
+              },
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: "Password",
@@ -38,7 +48,14 @@ class _RegisterPageState extends State<RegisterPage> {
               obscureText: true,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                if (_email.isEmpty || _password.isEmpty) {
+                  Toast(context, "Vui lòng nhập thông tin tài khoản");
+                } else {
+                  FirebaseService()
+                      .createUserWithEmailAndPassword(_email, _password);
+                }
+              },
               child: Text("Register"),
             ),
             ElevatedButton(

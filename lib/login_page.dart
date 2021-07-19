@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_tutorial/home_page.dart';
 import 'package:firebase_tutorial/register_page.dart';
+import 'package:firebase_tutorial/util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'firebase_service.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -11,7 +14,10 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   FirebaseAuth _auth = FirebaseAuth.instance;
-  GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+
+  // GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  String _email = "";
+  String _password = "";
 
   @override
   void initState() {
@@ -31,14 +37,19 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-              onChanged: (value) {},
+              onChanged: (value) {
+                _email = value;
+              },
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: "Email",
               ),
+              keyboardType: TextInputType.emailAddress,
             ),
             TextField(
-              onChanged: (value) {},
+              onChanged: (value) {
+                _password = value;
+              },
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: "Password",
@@ -46,7 +57,27 @@ class _LoginPageState extends State<LoginPage> {
               obscureText: true,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                if (_email.isEmpty || _password.isEmpty) {
+                  Toast(context, "Vui lòng nhập thông tin tài khoản");
+                } else {
+                  String result = await FirebaseService()
+                      .signInWithEmailAndPassword(_email, _password);
+                  if (result == "wrong-password") {
+                    Toast(context, "Mật khẩu không chính xác");
+                  } else if (result == "user-not-found") {
+                    Toast(context, "Tài khoản không tồn tại");
+                  } else if (result == "success") {
+                    Toast(context, "Login success");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomePage(),
+                      ),
+                    );
+                  }
+                }
+              },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.blue),
               ),
@@ -74,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void _checkLogin() async {
     _auth.authStateChanges().listen((user) {
-      if(user != null){
+      if (user != null) {
         Navigator.push(
           context,
           MaterialPageRoute(

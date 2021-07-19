@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseService {
@@ -10,20 +12,36 @@ class FirebaseService {
         email: email,
         password: password,
       );
+      if (userCredential != null) {
+        print("Sign up success");
+      }
     } on FirebaseAuthException catch (e) {
       print(e.message);
     }
   }
 
-  void signInWithEmailAndPassword(String email, String password) async {
+  Future<String> signInWithEmailAndPassword(String email, String password) async {
+    String result = "";
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      if (userCredential != null) {
+        print("Login success");
+        result = "success";
+      }
     } on FirebaseAuthException catch (e) {
-      print(e.message);
+      if (e.code == "wrong-password") {
+        print("Mật khẩu không chính xác");
+        result = "wrong-password";
+      } else if (e.code == "user-not-found") {
+        print("Tài khoản không tồn tại");
+        result = "user-not-found";
+      }
     }
+    return result;
   }
 
   void signOut() async {
