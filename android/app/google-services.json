@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "296635348572",
+    "firebase_url": "https://flutter-login-6-7-2021-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "flutter-login-6-7-2021",
     "storage_bucket": "flutter-login-6-7-2021.appspot.com"
   },
@@ -29,6 +30,13 @@
             {
               "client_id": "296635348572-ecduu2bjr1edsndo76d51ph3b5ifee9e.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "296635348572-26acdvjip2quhj6fqbrf1nr9elda2vbc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.firebaseTutorial"
+              }
             }
           ]
         }

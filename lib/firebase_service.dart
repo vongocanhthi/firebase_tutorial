@@ -22,6 +22,12 @@ class FirebaseService {
       if (e.code == "email-already-in-use") {
         print("Tài khoản đã tồn tại");
         result = "email-already-in-use";
+      }else if (e.code == "weak-password") {
+        print("Mật khẩu phải có ít nhất 6 ký tự");
+        result = "weak-password";
+      }else{
+        print("Error");
+        result = "error";
       }
       print("${e.code} : ${e.message}");
     }

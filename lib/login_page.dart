@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // _checkLogin();
+    _checkLogin();
   }
 
   @override
@@ -34,89 +34,94 @@ class _LoginPageState extends State<LoginPage> {
         title: Text("Login"),
       ),
       body: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              onChanged: (value) {
-                _email = value;
-              },
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Email",
-              ),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            TextField(
-              onChanged: (value) {
-                _password = value;
-              },
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Password",
-              ),
-              obscureText: true,
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                if (_email.isEmpty || _password.isEmpty) {
-                  Toast(context, "Vui lòng nhập thông tin tài khoản");
-                } else {
-                  String result = await FirebaseService()
-                      .signInWithEmailAndPassword(_email, _password);
-                  if (result == "wrong-password") {
-                    Toast(context, "Mật khẩu không chính xác");
-                  } else if (result == "user-not-found") {
-                    Toast(context, "Tài khoản không tồn tại");
-                  }else if (result == "user-disabled") {
-                    Toast(context, "Tài khoản đã bị khóa");
-                  }else if (result == "error") {
-                    Toast(context, "Error");
-                  } else if (result == "success") {
-                    Toast(context, "Login success");
+        padding: EdgeInsets.all(20),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextField(
+                  onChanged: (value) {
+                    _email = value;
+                  },
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Email",
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                TextField(
+                  onChanged: (value) {
+                    _password = value;
+                  },
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Password",
+                  ),
+                  obscureText: true,
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (_email.isEmpty || _password.isEmpty) {
+                      Toast(context, "Vui lòng nhập thông tin tài khoản");
+                    } else {
+                      String result = await FirebaseService()
+                          .signInWithEmailAndPassword(_email, _password);
+                      if (result == "wrong-password") {
+                        Toast(context, "Mật khẩu không chính xác");
+                      } else if (result == "user-not-found") {
+                        Toast(context, "Tài khoản không tồn tại");
+                      }else if (result == "user-disabled") {
+                        Toast(context, "Tài khoản đã bị khóa");
+                      }else if (result == "error") {
+                        Toast(context, "Error");
+                      } else if (result == "success") {
+                        // Toast(context, "Login success");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomePage(),
+                          ),
+                        );
+                      }
+                    }
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.blue),
+                  ),
+                  child: Text("Login"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => HomePage(),
+                        builder: (context) => ForgotPasswordPage(),
                       ),
                     );
-                  }
-                }
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.blue),
-              ),
-              child: Text("Login"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ForgotPasswordPage(),
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.red),
                   ),
-                );
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.red),
-              ),
-              child: Text("Forgot password"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RegisterPage(),
+                  child: Text("Forgot password"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RegisterPage(),
+                      ),
+                    );
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.grey),
                   ),
-                );
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.grey),
-              ),
-              child: Text("Register"),
+                  child: Text("Register"),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
