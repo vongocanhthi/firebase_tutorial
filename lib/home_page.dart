@@ -5,7 +5,7 @@ import 'package:firebase_tutorial/model/account.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'chat_page.dart';
+import 'chat/chat_page.dart';
 
 class HomePage extends StatefulWidget {
   @override

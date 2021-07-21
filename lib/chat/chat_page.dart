@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -59,9 +61,16 @@ class _ChatPageState extends State<ChatPage> {
                     onChanged: (value) {
                       setState(() {
                         _message = value;
-                        _isShowButtonSend = _message.isEmpty ? false : true;
+                        if (_message.isEmpty) {
+                          _isShowButtonSend = false;
+                        } else {
+                          _isShowButtonSend = true;
+                        }
                       });
                     },
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
                     decoration: InputDecoration(
                       hintText: "Tin nhắn ...",
                       border: InputBorder.none,
@@ -69,23 +78,9 @@ class _ChatPageState extends State<ChatPage> {
                     keyboardType: TextInputType.text,
                   ),
                 ),
-                // IconButton(
-                //   onPressed: () {},
-                //   icon: _isShowButtonSend
-                //       ? IconButton(
-                //           icon: Icon(Icons.send),
-                //           color: Colors.blue,
-                //           onPressed: () {},
-                //         )
-                //       : IconButton(
-                //           icon: Icon(Icons.favorite),
-                //           color: Colors.red,
-                //           onPressed: () {},
-                //         ),
-                // ),
                 IconButton(
-                  icon: Icon(_isShowButtonSend ? Icons.favorite : Icons.send),
-                  color: _isShowButtonSend ? Colors.red : Colors.blue,
+                  icon: Icon(_isShowButtonSend ? Icons.send : Icons.favorite),
+                  color: _isShowButtonSend ? Colors.blue : Colors.red,
                   onPressed: () {
                     if (_isShowButtonSend) {
                       print("aaa");
@@ -99,34 +94,6 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ),
       ),
-      // bottomNavigationBar: Row(
-      //   children: [
-      //     IconButton(
-      //       onPressed: () {},
-      //       icon: Icon(
-      //         Icons.sticky_note_2_outlined,
-      //         color: Colors.blue,
-      //       ),
-      //     ),
-      //     Expanded(
-      //       child: TextField(
-      //         onChanged: (value) {},
-      //         decoration: InputDecoration(
-      //           hintText: "Tin nhắn ...",
-      //           border: InputBorder.none,
-      //         ),
-      //         keyboardType: TextInputType.text,
-      //       ),
-      //     ),
-      //     IconButton(
-      //       onPressed: () {},
-      //       icon: Icon(
-      //         Icons.send,
-      //         color: Colors.blue,
-      //       ),
-      //     ),
-      //   ],
-      // ),
     );
   }
 }
